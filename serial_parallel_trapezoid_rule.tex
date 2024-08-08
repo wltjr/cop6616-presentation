@@ -304,6 +304,45 @@ Note: for simplicity will assume $n/p$ is an integer
 	\hspace{2em} $ = \frac{h}{2}[f(x_0) + 2f(x_1) + 2f(x_2) + f(x_3)]$
 \end{frame}
 
+\begin{frame}{Trapezoid Rule: Integration Precision}
+	\begin{multicols}{2}
+	Precision can be increased by increasing the number of partitions. \\
+	
+	Error in approximation decreases as the partition step size decreases. \\
+	
+	Partition area calculations are independent.
+	\begin{tikzpicture}[line join=round,line cap=round]
+		\begin{scope}
+		\draw[-latex] (-0.5,0) -- (5,0) node[below] {$x$};
+		\draw[-latex] (0,-0.5) -- (0,5) node[left]  {$y$};
+		\node at (3.25,3.5) {$y=f(x)$};
+		\foreach\i in {0,1,2,3,...,8}
+		{
+			\pgfmathsetmacro\j{0.5*\i+0.5}
+			\coordinate (x\i) at (\j,0);
+			\coordinate (y\i) at (\j,{f(\j)});
+		}
+		\foreach\i in {0,1,2,3}
+		\node[below]          at (x\i) {$x_\i$};
+		\node[below]          at (x7) {$x_{n-1}$};
+		\node[below]          at (x8) {$x_n$};
+		\node[yshift=-0.75cm] at (x0) {\strut$a$};
+		\node[yshift=-0.75cm] at (x8) {\strut$b$};
+		\end{scope}
+		\foreach\i in {0,1,2,3,...,8}
+		{
+			\pgfmathtruncatemacro\j{\i+1}
+			\ifnum\i<8
+			\filldraw[osprey_green] (x\i) -- (y\i) -- (y\j) -- (x\j);
+			\draw[gray] (x\i) -- (y\i) -- (y\j) -- (x\j);
+			\fi
+			\fill (y\i) circle (1pt);
+		}
+		\draw[thick,cyan] plot[domain=0.5:4.5,samples=41] (\x,{f(\x)});
+	\end{tikzpicture}
+	\end{multicols}
+\end{frame}
+
 \section{Serial Implementation}
 \begin{frame}{Serial Implementation: Approach}
 \end{frame}
