@@ -6,7 +6,8 @@
 \usepackage[outputdir=/home/wlt/.cache/gummi/]{minted}
 \usepackage{multicol}
 \usepackage{multirow}
-
+\usepackage{setspace}
+\usepackage{tikz}
 
 \newcommand{\eg}{\textit{e}.\textit{g}., }
 \newcommand{\ie}{\textit{i}.\textit{e}., }
@@ -14,6 +15,7 @@
 
 \definecolor{osprey_blue}{cmyk}{1, .76, .1, .65}
 \definecolor{osprey_gray}{cmyk}{.36, .29, .28, 0}
+\definecolor{osprey_green}{cmyk}{.59, .02, 1, 0}
 
 \setbeamercolor*{palette primary}{bg=osprey_blue, fg = white}
 \setbeamercolor*{palette secondary}{bg=osprey_gray, fg = white}
@@ -31,6 +33,9 @@
 \setbeamertemplate{itemize/enumerate subsubbody begin}{\tiny}
 
 \setbeamerfont{description body}{size=\small}
+
+\tikzset{declare function={f(\x)=0.25*(\x-2.5)^3-0.75*\x+5);}}
+
 
 \title[Serial vs. Parallel Implementation]{Serial vs. Parallel Implementation of \\
                                            Definite Integrals using the Trapezoid Rule}
@@ -80,5 +85,50 @@ Note: for simplicity will assume $n/p$ is an integer
 
 \end{frame}
 
+\begin{frame}{Trapezoid Rule: Integration}
+	\begin{multicols}{2}
+	Area $ = \frac{1}{2}[f(a) + f(b)](b-a)$ \\
+	
+	\begin{spacing}{1.25}
+		Area $ = \frac{1}{2}[f(x_0) + f(x_1)](x_1-x0) +$ \\ 
+		\phantom{x}\hspace{2.5em} $ \frac{1}{2}[f(x_1) + f(x_2)](x_2-x1) +$
+		\phantom{x}\hspace{2.5em} $ \frac{1}{2}[f(x_2) + f(x_3)](x_3-x2) +$ \\
+
+		\hspace{2em} $ = \frac{h}{2}[f(x_0) + f(x_1) +$ \\
+		\phantom{x}\hspace{3.5em} $f(x_1) + f(x_2) + $ \\
+		\phantom{x}\hspace{3.5em} $f(x_2) + f(x_3)]$
+	\end{spacing}
+
+	\begin{tikzpicture}[line join=round,line cap=round]
+		\begin{scope}
+		\draw[-latex] (-0.5,0) -- (5,0) node[below] {$x$};
+		\draw[-latex] (0,-0.5) -- (0,5) node[left]  {$y$};
+		\node at (3.25,3.5) {$y=f(x)$};
+		\foreach\i in {0,1,2,3}
+		{
+			\pgfmathsetmacro\j{1*\i+1}
+			\coordinate (x\i) at (\j,0);
+			\coordinate (y\i) at (\j,{f(\j)});
+		}
+		\foreach\i in {0,1,2,3}
+		\node[below]        at (x\i) {$x_\i$};
+		\node[yshift=-0.75cm] at (x0) {\strut$a$};
+		\node[yshift=-0.75cm] at (x3) {\strut$b$};
+		\end{scope}
+		\foreach\i in {0,1,2,3}
+		{
+			\pgfmathtruncatemacro\j{\i+1}
+			\ifnum\i<3
+			\filldraw[osprey_green] (x\i) -- (y\i) -- (y\j) -- (x\j);
+			\draw[gray] (x\i) -- (y\i) -- (y\j) -- (x\j);
+			\fi
+			\fill (y\i) circle (1pt);
+		}
+		\draw[thick,cyan] plot[domain=0.5:4.5,samples=41] (\x,{f(\x)});
+	\end{tikzpicture}
+	\end{multicols}
+	\vspace{-2em}
+	\hspace{2em} $ = \frac{h}{2}[f(x_0) + 2f(x_1) + 2f(x_2) + f(x_3)]$
+\end{frame}
 
 \end{document}
