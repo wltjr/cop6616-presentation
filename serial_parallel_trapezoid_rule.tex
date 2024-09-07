@@ -7,6 +7,7 @@
 \usepackage{multicol}
 \usepackage{multirow}
 
+
 \newcommand{\eg}{\textit{e}.\textit{g}., }
 \newcommand{\ie}{\textit{i}.\textit{e}., }
 \newcommand{\heading}[1]{{\it{\usebeamercolor[fg]{frametitle} #1}}}
@@ -43,7 +44,7 @@
 
 \begin{document}
 
-\begin{frame}
+\begin{frame}[plain]
 	\titlepage
 \end{frame}
 
@@ -51,5 +52,33 @@
 	\tableofcontents
 	\vfill
 \end{frame}
+
+\section{Trapezoid Rule}
+\begin{frame}{Trapezoid Rule: Formula}
+\[ \int_a^b f(x)dx \approx \frac{h}{2} (f(x_0) + f(x_n)) + \sum_{i=1}^{n-1} f(x_i) \]
+where $h = (b-a)/n, x_i = a + ih$
+
+Given p processes, each process can work on n/p intervals
+
+Note: for simplicity will assume $n/p$ is an integer
+
+\begingroup
+\renewcommand{\arraystretch}{1.5}
+\begin{center}
+\begin{tabular}{ l l }
+ \hline
+ process & interval \\ 
+ \hline
+ 0 & $[a, a + \frac{n}{p}h]$ \\ 
+ 1 & $[a + \frac{n}{p}h, a + 2\frac{n}{p}h]$ \\ 
+ ... & ... \\  
+ $p-1$ & $[a + (p - 1)\frac{n}{p}h, b]$ \\
+ \hline
+\end{tabular}
+\end{center}
+\endgroup
+
+\end{frame}
+
 
 \end{document}
