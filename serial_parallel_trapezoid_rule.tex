@@ -138,5 +138,27 @@ Note: for simplicity will assume $n/p$ is an integer
 \begin{frame}{Serial Implementation: Code}
 \end{frame}
 
+\section{Parallel Implementation}
+\begin{frame}{Parallel Implementation: Approach}
+	\begin{itemize}
+		\item Split the interval $[a,b]$ up among the $p$ processes.
+		\item Each process will estimate the integral $f(x)$ over its subinterval.
+		\item To estimate the total integral, the processes’ local calculations are added.
+		\item Suppose that the $n$ trapezoids are divided evenly across $p$ processes.
+		\item Process $q$ will estimate the integral over the interval \\
+		$[a + q\frac{nh}{p}, a + (q + 1)\frac{nh}{p}]$
+		
+		\item Each process needs the following information:
+		\begin{itemize}
+			\item Number of processes, $p$.
+			\item Its rank.
+			\item The entire interval of integration, $[a, b]$.
+			\item The number of subintervals, $n$.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Parallel Implementation: Code}
+\end{frame}
 
 \end{document}
