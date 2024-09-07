@@ -1,0 +1,55 @@
+\documentclass[t]{beamer}
+\usetheme{Boadilla}
+
+\usepackage[english]{babel}
+\usepackage[font=tiny]{caption}
+\usepackage[outputdir=/home/wlt/.cache/gummi/]{minted}
+\usepackage{multicol}
+\usepackage{multirow}
+
+\newcommand{\eg}{\textit{e}.\textit{g}., }
+\newcommand{\ie}{\textit{i}.\textit{e}., }
+\newcommand{\heading}[1]{{\it{\usebeamercolor[fg]{frametitle} #1}}}
+
+\definecolor{osprey_blue}{cmyk}{1, .76, .1, .65}
+\definecolor{osprey_gray}{cmyk}{.36, .29, .28, 0}
+
+\setbeamercolor*{palette primary}{bg=osprey_blue, fg = white}
+\setbeamercolor*{palette secondary}{bg=osprey_gray, fg = white}
+\setbeamercolor*{palette tertiary}{bg=osprey_blue, fg = white}
+\setbeamercolor{structure}{fg=osprey_blue} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=osprey_blue} % TOC sections
+
+\setbeamerfont{section in toc}{size=\footnotesize}
+\setbeamerfont{subsection in toc}{size=\scriptsize}
+\setbeamerfont{subsubsection in toc}{size=\scriptsize}
+
+\setbeamertemplate{enumerate item}[default]
+\setbeamertemplate{itemize/enumerate body begin}{\small}
+\setbeamertemplate{itemize/enumerate subbody begin}{\tiny}
+\setbeamertemplate{itemize/enumerate subsubbody begin}{\tiny}
+
+\setbeamerfont{description body}{size=\small}
+
+\title[Serial vs. Parallel Implementation]{Serial vs. Parallel Implementation of \\
+                                           Definite Integrals using the Trapezoid Rule}
+\subtitle{\vspace{1em}\footnotesize Presented by:\vspace{-2em}}
+\author[\textbf{Group X}]{\textbf{Group X} \\
+                          \footnotesize \textit{Jason Gardner, Matthew Thomas, \& William L Thomson Jr}}
+\institute[UNF]{University of North Florida \\
+                Parallel Computing COP6616 \\
+                Instructor Scott Piersall}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Outline}
+	\tableofcontents
+	\vfill
+\end{frame}
+
+\end{document}
