@@ -2,27 +2,21 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <time.h>
-#include <math.h>
+#include "equations.h"
 
-#define NUM_THREADS 2000
-
-// gcc -g -Wall -pthread trapt.c -lpthread -o trapt -lm
+// gcc -g -pthread trapt.c equations.c -lpthread -o trapt -lm
 
 double global_sum = 0.0;
 double a, b;
-int n;
+int n, num_threads;
 pthread_mutex_t mutex;
-
-double f(double x) {
-    //return x * x;
-    return x*x + 50 * (sin(100 * M_PI * x) * sin(M_PI * x));
-}
 
 typedef struct {
     int id;
     double local_a;
     double local_b;
     int local_n;
+    double (*f)(double);
 } thread_data;
 
 void *trapezoid_rule(void *arg) {
@@ -32,6 +26,7 @@ void *trapezoid_rule(void *arg) {
     int local_n = data->local_n;
     double h = (local_b - local_a) / local_n;
     double local_sum = 0.0;
+    double (*f)(double) = data->f;
 
     for (int i = 1; i < local_n; i++) {
         double x = local_a + i * h;
@@ -49,45 +44,55 @@ void *trapezoid_rule(void *arg) {
 }
 
 int main(int argc, char** argv){
-    if (argc < 4) {
-        printf("Usage: %s <a> <b> <n>\n", argv[0]);
+    if (argc < 5) {
+        printf("Usage: %s <a> <b> <n> <num_threads>\n", argv[0]);
         return -1;
     }
     
     sscanf(argv[1], "%lf", &a);
     sscanf(argv[2], "%lf", &b);
     sscanf(argv[3], "%d", &n);
+    sscanf(argv[4], "%d", &num_threads);
 
-    pthread_t threads[NUM_THREADS];
-    thread_data thread_args[NUM_THREADS];
+    pthread_t threads[num_threads];
+    thread_data thread_args[num_threads];
     pthread_mutex_init(&mutex, NULL);
 
     struct timespec start, end;
+
+    EquationSet es = get_equations();
     
-    clock_gettime(CLOCK_MONOTONIC, &start);
+    for (int f_idx = 0; f_idx < NUM_EQUATIONS; f_idx++) {
+        global_sum = 0.0;
+        const char* fn = es.equation_names[f_idx];
+        
+        clock_gettime(CLOCK_MONOTONIC, &start);
 
-    double h = (b - a) / n;
-    double trapezoids_per_thread = n / NUM_THREADS;
-    
-    for (int i = 0; i < NUM_THREADS; i++) {
-        thread_args[i].id = i;
-        thread_args[i].local_a = a + i * trapezoids_per_thread * h;
-        thread_args[i].local_b = thread_args[i].local_a + trapezoids_per_thread * h;
-        thread_args[i].local_n = trapezoids_per_thread;
+        double h = (b - a) / n;
+        double trapezoids_per_thread = n / num_threads;
+        
+        for (int i = 0; i < num_threads; i++) {
+            thread_args[i].id = i;
+            thread_args[i].local_a = a + i * trapezoids_per_thread * h;
+            thread_args[i].local_b = thread_args[i].local_a + trapezoids_per_thread * h;
+            thread_args[i].local_n = trapezoids_per_thread;
+            thread_args[i].f = es.equation_functions[f_idx];
 
-        pthread_create(&threads[i], NULL, trapezoid_rule, (void*)&thread_args[i]);
+            pthread_create(&threads[i], NULL, trapezoid_rule, (void*)&thread_args[i]);
+        }
+
+        for (int i = 0; i < num_threads; i++) {
+            pthread_join(threads[i], NULL);
+        }
+
+        clock_gettime(CLOCK_MONOTONIC, &end);
+
+        double time_taken = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+
+        printf("PARALLEL (THREADED)\nFUNCTION:\t%s\nThreads:\t%d\nn:\t\t%d trapezoids\n", fn, num_threads, n);
+        printf("Interval:\t[%f, %f]\nApproximation:\t%f\n", a, b, global_sum);
+        printf("Time:\t\t%lf seconds\n\n", time_taken);
     }
-
-    for (int i = 0; i < NUM_THREADS; i++) {
-        pthread_join(threads[i], NULL);
-    }
-
-    clock_gettime(CLOCK_MONOTONIC, &end);
-
-    double time_taken = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-
-    printf("With n = %d trapezoids, the parallel estimate of the integral from %f to %f is: %f\n", n, a, b, global_sum);
-    printf("Time taken: %lf seconds\n", time_taken);
 
     pthread_mutex_destroy(&mutex);
     return 0;
