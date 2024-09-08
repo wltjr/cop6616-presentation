@@ -10,6 +10,8 @@
 \usepackage{setspace}
 \usepackage{tikz}
 
+\usetikzlibrary{automata, positioning, arrows, babel, positioning, shapes}
+
 \newcommand{\eg}{\textit{e}.\textit{g}., }
 \newcommand{\ie}{\textit{i}.\textit{e}., }
 \newcommand{\heading}[1]{{\it{\usebeamercolor[fg]{frametitle} #1}}}
@@ -471,6 +473,29 @@ float trapezoid_rule(float a, float b, int n) {
 \end{frame}
 
 \begin{frame}{Parallel Implementation: Code}
+\end{frame}
+
+\begin{frame}{Trapezoid Rule: Tasks \& Communication}
+  \begin{tikzpicture}[node distance=3cm]
+	\tikzset{
+		->, % makes the edges directed
+		>=stealth', % makes the arrow heads bold
+		node distance=3cm, % minimum distance between two nodes. Change if necessary.
+		every state/.style={thick, fill=gray!10}, % sets properties for each state node
+		initial text=$ $, % sets the text that appears on the start arrow
+	}
+	\tikzstyle{bag} = [align=center]
+    \node[state, draw=osprey_green, bag] (0) {Compute Area\\of Trapezoid 0};
+    \node[state, right of=0, draw=osprey_green, bag] (1) {Compute Area\\of Trapezoid 1};
+    \node[state, right of=1, draw=osprey_green, xshift=-2mm, bag] (2) {...};
+    \node[state, right of=2, draw=osprey_green, xshift=-1mm, bag] (3) {Compute Area\\of Trapezoid\\$n-1$};
+    \node[state, below of=1, draw=cyan, xshift=14mm, yshift=-10mm, bag] (4) {Add Areas};
+    \draw[very thick]
+      (0) edge[left, draw=black] node{} (4)
+      (1) edge[left, draw=black] node{} (4)
+      (2) edge[left, draw=black] node{} (4)
+      (3) edge[left, draw=black] node{} (4);
+  \end{tikzpicture}
 \end{frame}
 
 \begin{frame}{References}
