@@ -343,6 +343,33 @@ Note: for simplicity will assume $n/p$ is an integer
 	\end{multicols}
 \end{frame}
 
+\begin{frame}{Trapezoid Rule: Accuracy}
+\begin{itemize}
+\item Numerical methods of integration, such as using the Trapezoid Rule, only provide an estimate of the actual area.
+\item More sub-intervals may lead to greater accuracy.
+\item How many sub-intervals are needed to achieve a desired accuracy? There's a way to find ahead of time!
+\item Unfortunately, we need to find the second derivative of the function being integrated, and we must do some analysis on that.
+\item Suppose $E_T$ is the difference between our estimate and the actual value of the integral. This is the Total Error.
+\item The following gives an upper bound for $|E_T|$
+\[|E_T|\leq(b-a)\frac{h^2}{12}M\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Trapezoid Rule: Accuracy}
+\begin{itemize}
+\item Suppose $E_T$ is the difference between our estimate and the exact value of the integral (which we don't have to know). This is the Total Error.
+\item The following gives an upper bound for $|E_T|$ when integrating $f(x)$ on the interval $[a,b]$:
+\[|E_T|\leq(b-a)\frac{h^2}{12}M\]
+where $h$ is the sub-interval width, and $M$ is the maximum value
+\item We specify a maximum bound for $|E_T|$, so after we determine $M$, we can solve for $h$ and subsequently solve for $n$, the number of sub-intervals we need for our desired accuracy.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Example: Finding Number of Sub-intervals Needed}
+\end{frame}
+
+
+
 \begin{frame}{Trapezoid Rule: Integration Step Size}
 \end{frame}
 
