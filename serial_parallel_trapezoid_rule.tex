@@ -378,6 +378,42 @@ where $h$ is the sub-interval width, and $M$ is the maximum value
 \animategraphics[autoplay,loop,width=\linewidth - 0.5cm]{1}{assets/Trapezium2-}{0}{19}
 \end{frame}
 
+\begin{frame}{Trapezoid Rule: Parallelizing}
+	\begin{enumerate}
+		\item Partition problem solution into tasks.
+		\item Identify communication channels between tasks. (MPI)
+		\item Aggregate tasks into composite tasks.
+		\item Map composite tasks to cores.
+	\end{enumerate}
+
+	\begin{tikzpicture}[line join=round,line cap=round]
+		\begin{scope}
+		\draw[-latex] (-0.5,0) -- (10,0) node[below] {$x$};
+		\draw[-latex] (0,-0.5) -- (0,4) node[left]  {$y$};
+		\node at (6.5,3.5) {$y=f(x)$};
+		\foreach\i in {0,1,2,3,4}
+		{
+			\pgfmathsetmacro\j{0.9*\i+0.9}
+			\coordinate (x\i) at (\j * 2,0);
+			\coordinate (y\i) at (\j * 2,{f(\j)});
+			\node[below]       at (x\i) {$x_\i$};
+		}
+		\foreach\i in {0,1,2,3,4}
+		{
+			\pgfmathtruncatemacro\j{\i+1}
+			\ifnum\i<4
+				\filldraw[osprey_green] (x\i) -- (y\i) -- (y\j) -- (x\j);
+				\draw[gray] (x\i) -- (y\i) -- (y\j) -- (x\j);
+				\node at (\j * 1.75 + 1,2) {Task \i};
+				\node at (\j * 1.75 + 1,1.5) {Core \i};
+			\fi
+			\fill (y\i) circle (1pt);
+		}
+		\draw[thick,cyan] plot[domain=0.5:4.5,samples=41,tension=1] (\x * 2,{f(\x)});
+		\end{scope}
+	\end{tikzpicture}
+\end{frame}
+
 \section{Serial Implementation}
 \begin{frame}{Serial Implementation: Approach}
 \end{frame}
