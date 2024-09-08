@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
     // Loop over each function in the equation set
     for (int f_idx = 0; f_idx < NUM_EQUATIONS; f_idx++) {
         double global_sum = 0.0;  // Local global_sum for each equation
-        const char* fn = es.equation_names[f_idx]; // Function name for each equation
+        const char* fn = es.equation_names[f_idx]; // Function name for this equation
 
         // Start timer
         clock_gettime(CLOCK_MONOTONIC, &start);
