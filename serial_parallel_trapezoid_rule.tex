@@ -35,6 +35,9 @@
 
 \setbeamerfont{description body}{size=\small}
 
+\setminted{linenos, escapeinside=@@, fontsize=\footnotesize, tabsize=4, xleftmargin=1cm}
+\usemintedstyle{emacs}
+
 \tikzset{declare function={f(\x)=0.25*(\x-2.5)^3-0.75*\x+5);}}
 
 
@@ -418,7 +421,25 @@ where $h$ is the sub-interval width, and $M$ is the maximum value
 \begin{frame}{Serial Implementation: Approach}
 \end{frame}
 
-\begin{frame}{Serial Implementation: Code}
+\begin{frame}[containsverbatim]{Serial Implementation: Code}
+\begin{minted}{c}
+/* Function being integrated using @$f(x) = x^2$@*/
+float f(float x) {
+	return x*x;
+}
+float trapezoid_rule(float a, float b, int n, float h) {
+	float integral; /* Store result in integral */
+	float x;
+	int i;
+	integral = (f(a) + f(b))/2.0;
+	x = a;
+	for ( i = 1; i <= n-1; i++ ) {
+		x = x + h;
+		integral = integral + f(x);
+	}
+	return integral*h;
+}
+\end{minted}
 \end{frame}
 
 \section{Parallel Implementation}
