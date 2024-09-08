@@ -36,10 +36,11 @@ void *trapezoid_rule(void *arg) {
     thread_data *data = (thread_data*)arg;
     double local_a = data->local_a;
     double local_b = data->local_b;
+    int local_n = data->local_n;
     double h = (local_b - local_a) / local_n;
     double local_sum = 0.0;
     double (*f)(double) = data->f;
-    int local_n = data->local_n;
+
 
     // Compute trapezoidal rule for each thread
     for (int i = 1; i < local_n; i++) {
