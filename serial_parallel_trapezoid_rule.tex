@@ -401,7 +401,7 @@ float f(float x) {
 	return x*x;
 }
 float trapezoid_rule(float a, float b, int n) {
-	float integral; /* Store result in integral */
+	float result;
 	float h;
 	float x;
 	int i;
@@ -410,10 +410,10 @@ float trapezoid_rule(float a, float b, int n) {
 	h = (b - a) / n;
 	x = a;
 	for ( i = 1; i <= n-1; i++ ) {
-		x = x + h;
-		integral = integral + f(x);
+		x += h;
+		result += f(x);
 	}
-	return integral*h;
+	return result*h;
 }
 \end{minted}
 \end{frame}
