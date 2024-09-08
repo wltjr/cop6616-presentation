@@ -267,9 +267,9 @@ Note: for simplicity will assume $n/p$ is an integer
 	Area $ = \frac{1}{2}[f(a) + f(b)](b-a)$ \\
 	
 	\begin{spacing}{1.25}
-		Area $ = \frac{1}{2}[f(x_0) + f(x_1)](x_1-x0) +$ \\ 
-		\phantom{x}\hspace{2.5em} $ \frac{1}{2}[f(x_1) + f(x_2)](x_2-x1) +$
-		\phantom{x}\hspace{2.5em} $ \frac{1}{2}[f(x_2) + f(x_3)](x_3-x2) +$ \\
+		Area $ = \frac{1}{2}[f(x_0) + f(x_1)](x_1-x_0) +$ \\
+		\phantom{x}\hspace{2.5em} $ \frac{1}{2}[f(x_1) + f(x_2)](x_2-x_1) +$
+		\phantom{x}\hspace{2.5em} $ \frac{1}{2}[f(x_2) + f(x_3)](x_3-x_2) +$ \\
 
 		\hspace{2em} $ = \frac{h}{2}[f(x_0) + f(x_1) +$ \\
 		\phantom{x}\hspace{3.5em} $f(x_1) + f(x_2) + $ \\
@@ -286,9 +286,8 @@ Note: for simplicity will assume $n/p$ is an integer
 			\pgfmathsetmacro\j{1*\i+1}
 			\coordinate (x\i) at (\j,0);
 			\coordinate (y\i) at (\j,{f(\j)});
+			\node[below]        at (x\i) {$x_\i$};
 		}
-		\foreach\i in {0,1,2,3}
-		\node[below]        at (x\i) {$x_\i$};
 		\node[yshift=-0.75cm] at (x0) {\strut$a$};
 		\node[yshift=-0.75cm] at (x3) {\strut$b$};
 		\end{scope}
@@ -296,8 +295,8 @@ Note: for simplicity will assume $n/p$ is an integer
 		{
 			\pgfmathtruncatemacro\j{\i+1}
 			\ifnum\i<3
-			\filldraw[osprey_green] (x\i) -- (y\i) -- (y\j) -- (x\j);
-			\draw[gray] (x\i) -- (y\i) -- (y\j) -- (x\j);
+				\filldraw[osprey_green] (x\i) -- (y\i) -- (y\j) -- (x\j);
+				\draw[gray] (x\i) -- (y\i) -- (y\j) -- (x\j);
 			\fi
 			\fill (y\i) circle (1pt);
 		}
@@ -327,7 +326,7 @@ Note: for simplicity will assume $n/p$ is an integer
 			\coordinate (y\i) at (\j,{f(\j)});
 		}
 		\foreach\i in {0,1,2,3}
-		\node[below]          at (x\i) {$x_\i$};
+			\node[below]          at (x\i) {$x_\i$};
 		\node[below]          at (x7) {$x_{n-1}$};
 		\node[below]          at (x8) {$x_n$};
 		\node[yshift=-0.75cm] at (x0) {\strut$a$};
@@ -337,8 +336,8 @@ Note: for simplicity will assume $n/p$ is an integer
 		{
 			\pgfmathtruncatemacro\j{\i+1}
 			\ifnum\i<8
-			\filldraw[osprey_green] (x\i) -- (y\i) -- (y\j) -- (x\j);
-			\draw[gray] (x\i) -- (y\i) -- (y\j) -- (x\j);
+				\filldraw[osprey_green] (x\i) -- (y\i) -- (y\j) -- (x\j);
+				\draw[gray] (x\i) -- (y\i) -- (y\j) -- (x\j);
 			\fi
 			\fill (y\i) circle (1pt);
 		}
