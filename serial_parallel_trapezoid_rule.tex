@@ -355,28 +355,53 @@ Note: for simplicity will assume $n/p$ is an integer
 \end{frame}
 
 \begin{frame}{Trapezoid Rule: Accuracy}
-\begin{itemize}
-\item Numerical methods of integration, such as using the Trapezoid Rule, only provide an estimate of the actual area.
-\item More sub-intervals may lead to greater accuracy.
-\item How many sub-intervals are needed to achieve a desired accuracy? There's a way to find ahead of time!
-\item Unfortunately, we need to find the second derivative of the function being integrated, and we must do some analysis on that.
-\item Suppose $E_T$ is the difference between our estimate and the actual value of the integral. This is the Total Error.
-\item The following gives an upper bound for $|E_T|$
-\[|E_T|\leq(b-a)\frac{h^2}{12}M\]
-\end{itemize}
+	\begin{itemize}
+		\item Numerical methods of integration, such as using the Trapezoid Rule, only provide an estimate of the actual area.
+		\item More partitions/sub-intervals may lead to greater accuracy.
+		\item How many partitions are needed to achieve a desired accuracy?
+		\item There's a way to find out ahead of time!
+		\item Unfortunately, we need to find the second derivative of the function being integrated, and we must do some analysis on that.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Trapezoid Rule: Accuracy}
-\begin{itemize}
-\item Suppose $E_T$ is the difference between our estimate and the exact value of the integral (which we don't have to know). This is the Total Error.
-\item The following gives an upper bound for $|E_T|$ when integrating $f(x)$ on the interval $[a,b]$:
-\[|E_T|\leq(b-a)\frac{h^2}{12}M\]
-where $h$ is the sub-interval width, and $M$ is the maximum value
-\item We specify a maximum bound for $|E_T|$, so after we determine $M$, we can solve for $h$ and subsequently solve for $n$, the number of sub-intervals we need for our desired accuracy.
-\end{itemize}
+	\begin{itemize}
+		\item Suppose $E_T$ is the difference between our estimate and the exact value of the integral (which we don't have to know).
+		\item This is the \textbf{Total Error} $E_T$.
+		\item The following gives an upper bound for $|E_T|$ when integrating $f(x)$ on the interval $[a,b]$:
+		\[|E_T|\leq(b-a)\frac{h^2}{12}M\]
+		where $h$ is the partitions width,\\
+		and $M$ is the maximum value of $|f''(x)|$ on the interval $[a,b]$.
+		\item We specify a maximum bound for $|E_T|$, so after we determine $M$, we can solve for $h$ and subsequently solve for $n$, the number of partitions we need for our desired accuracy.
+	\end{itemize}
 \end{frame}
 
-\begin{frame}{Example: Finding Number of Sub-intervals Needed}
+\begin{frame}[allowframebreaks]{Example: Calculate Number of Partitions}
+Suppose we want to integrate
+\[f(x)=\frac{100}{x+5}\]
+on the interval $[0,100]$ using the Trapezoid Rule with a total error of no more than $10^{-4}$. So,
+\[f''(x)=\frac{200}{(x+5)^3}\]
+and on the interval $[0,100]$, $|f''(x)|$ is highest when $x=0$. So
+\[M=\left|\frac{200}{5^3}\right|=1.6\]
+
+\framebreak
+
+Using the formula from a previous slide, we want to find $h$ (the partition width) such that
+
+\[(b-a)\frac{h^2}{12}M\leq10^{-4}\]
+which guarantees that the absolute value of the total error is also $\leq10^{-4}$.
+
+Filling in the values we know for $b, a,$ and $M$ and then solve for $h$:
+
+\[(100-0)\frac{h^2}{12}(1.6)\leq10^{-4}\]
+\[h^2 \leq 0.0000075\]
+\[h \leq 0.0027386\]
+
+\framebreak
+
+So the number of partitions/sub-intervals we need in order to find an answer to the integral within $10^{-4}$ of the exact answer is
+
+\[n=\frac{b-a}{h}=\frac{100}{0.0027386}=35,515\]
 \end{frame}
 
 \section{Serial Implementation}
