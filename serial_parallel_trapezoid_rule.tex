@@ -235,7 +235,39 @@ where $L$ is the length of the pendulum and $g$ is the gravitational constant.
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Approximation of Numerical Integration}
+	General Approach
+	\begin{enumerate}
+		\item Use a simple function to approximate the integral area.
+		\item Divide an integral into small segments.
+	\end{enumerate}
 
+	\begin{tikzpicture}[line join=round,line cap=round]
+		\begin{scope}
+		\draw[-latex] (-0.5,0) -- (10,0) node[below] {$x$};
+		\draw[-latex] (0,-0.5) -- (0,4) node[left]  {$y$};
+		\foreach\i in {0,1,2,3,4}
+		{
+			\pgfmathsetmacro\j{0.9*\i+0.9}
+			\coordinate (x\i) at (\j * 2,0);
+			\coordinate (y\i) at (\j * 2,{f(\j)});
+			\pgfmathtruncatemacro\j{\i+1}
+			\node[below]      at (x\i) {\j};
+		}
+		\foreach\i in {0,1,2,3,4}
+		{
+			\pgfmathtruncatemacro\j{\i+1}
+			\ifnum\i<4
+				\pgfmathsetmacro\x{0.9*\i+0.9}
+				\filldraw[osprey_green] (\x*2, 0) rectangle ++(1.8, {f(\j) - 0.1});
+				\draw[gray] (\x*2, 0) rectangle ++(1.8, {f(\j) - 0.1});
+			\fi
+		}
+		\draw[thick,cyan] plot[domain=0.5:4.5,samples=41] (\x * 2,{f(\x)});
+		\end{scope}
+	\end{tikzpicture} \\
+	\footnotesize \textit{Note:} Approximation is not vary accurate.
+\end{frame}
 
 \section{Trapezoid Rule}
 \begin{frame}{Trapezoid Rule: Formula}
