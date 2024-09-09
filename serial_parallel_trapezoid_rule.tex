@@ -442,6 +442,22 @@ Note: for simplicity will assume $n/p$ is an integer
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{Trapezoid Rule: Precision}
+	\begin{itemize}
+		\item Precision impacts the accuracy of approximations.
+		\item Increased precision is a necessity in order to increase Accuracy.
+		\item In C/C++ this will entail using a library such as GMP from GNU.
+		\item Some languages, like Python, have built in ability to handle very
+		      large and small integers, as well as varying precision on floats.
+	\end{itemize}
+	\begin{multicols}{2}
+		\center
+		\includegraphics[scale=0.05]{assets/GMPLogo} \\
+		\hspace{-4em}
+		\includegraphics[scale=0.3]{assets/python-logo}
+	\end{multicols}
+\end{frame}
+
 \begin{frame}[allowframebreaks]{Example: Calculate Number of Partitions}
 Suppose we want to integrate
 \[f(x)=\frac{100}{x+5}\]
