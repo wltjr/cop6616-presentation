@@ -118,6 +118,9 @@ int main(int argc, char **argv) {
     sscanf(argv[2], "%lf", &b);
     sscanf(argv[3], "%d", &n);
 
+    // If the number of threads is greater than the number of trapezoids, set num_threads to n
+    num_threads = (num_threads > n) ? n : num_threads;
+
     // Declare threaded variables
     pthread_t *threads = NULL;
     thread_data *thread_args = NULL;

@@ -4,6 +4,7 @@
 #include <time.h>
 #include "equations.h"
 
+// sudo apt-get install libomp-dev
 // gcc -g -fopenmp -foffload=nvidia trapt-omp.c equations.c -o trapt-omp -lm
 
 /**
