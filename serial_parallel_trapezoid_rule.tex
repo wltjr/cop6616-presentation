@@ -317,11 +317,14 @@ Note: for simplicity will assume $n/p$ is an integer
 	\begin{multicols}{2}
 	Accuracy can be increased through increasing the number of partitions. \\
 	
+	The more trapeziums the area is divided into the more accurate the estimate. \\
+	
 	Error in approximation decreases as the partition step size decreases. \\
 
 	Accuracy is reliant on increasing precision. \\
 
 	Partition area calculations are independent.
+
 	\begin{tikzpicture}[line join=round,line cap=round]
 		\begin{scope}
 		\draw[-latex] (-0.5,0) -- (5,0) node[below] {$x$};
@@ -350,7 +353,8 @@ Note: for simplicity will assume $n/p$ is an integer
 			\fill (y\i) circle (1pt);
 		}
 		\draw[thick,cyan] plot[domain=0.5:4.5,samples=41] (\x,{f(\x)});
-	\end{tikzpicture}
+	\end{tikzpicture} \\
+	\vfill
 	\end{multicols}
 \end{frame}
 
@@ -517,7 +521,32 @@ float trapezoid_rule(float a, float b, int n) {
   \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Parallel Implementation: Code}
+\begin{frame}[containsverbatim]{Parallel Implementation: Threaded Code}
+\begin{minted}[fontsize=\scriptsize]{c}
+// Calculate h and trapezoids per thread
+double h = (b - a) / n;
+int trapezoids_per_thread = n / num_threads;
+
+// Create threads to compute trapezoidal rule in parallel
+for (int i = 0; i < num_threads; i++) {
+    thread_args[i].id = i;
+    thread_args[i].local_a = a + i * trapezoids_per_thread * h;
+    thread_args[i].local_b = thread_args[i].local_a +
+                             trapezoids_per_thread * h;
+    thread_args[i].local_n = trapezoids_per_thread;
+    thread_args[i].f = es.equation_functions[f_idx];
+    thread_args[i].mutex = &mutex;
+    thread_args[i].global_sum = &global_sum;
+
+    pthread_create(&threads[i], NULL, trapezoid_rule,
+                   (void*)&thread_args[i]);
+}
+
+// Join threads
+for (int i = 0; i < num_threads; i++) {
+    pthread_join(threads[i], NULL);
+}
+\end{minted}
 \end{frame}
 
 \begin{frame}{References}
