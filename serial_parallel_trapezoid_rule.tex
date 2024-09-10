@@ -379,6 +379,49 @@ Note: for simplicity will assume $n/p$ is an integer
 	\hspace{2em} $ = \frac{h}{2}[f(x_0) + 2f(x_1) + 2f(x_2) + f(x_3)]$
 \end{frame}
 
+
+\begin{frame}{Trapezoid Rule: Over and Under estimates}
+	\begin{multicols}{2}
+		In general, when the gradient of the graph is \textbf{increasing} over the given interval
+		the area given by the Trapezoidal rule will be an \textbf{overestimate} of the actual area.
+
+		\columnbreak
+
+		\begin{tikzpicture}[scale=0.5]
+			\draw[-latex] (0,0) -- (5,0) node[below] {};
+			\fill [osprey_green, domain=1:4, variable=\x]
+					(1, 0) -- plot ({\x}, {0.5*\x+1.6}) -- (4, 0) -- cycle;
+			\draw[thick,cyan] plot[domain=0.5:4.5] (\x,{0.1*\x*\x+2});
+		\end{tikzpicture}
+		\begin{tikzpicture}[scale=0.5]
+			\draw[-latex] (-5,0) -- (0,0) node[below] {};
+			\fill [osprey_green, domain=-4:-1, variable=\x]
+					(-4, 0) -- plot ({\x}, {-0.5*\x+1.6}) -- (-1, 0) -- cycle;
+			\draw[thick,cyan] plot[domain=-4.5:-0.5] (\x,{0.1*\x*\x+2});
+		\end{tikzpicture}
+	\end{multicols}
+	\vspace{1em}
+	\begin{multicols}{2}
+	When the gradient of the graph is \textbf{decreasing} over the given interval the area given
+	by the Trapezoidal rule will be an \textbf{underestimate} of the actual area.
+
+		\columnbreak
+		\begin{tikzpicture}[scale=0.5]
+			\draw[-latex] (0,0) -- (5,0) node[below] {};
+			\fill [osprey_green, domain=1:4, variable=\x]
+					(1, 0) -- plot ({\x}, {0.5*\x+1.6}) -- (4, 0) -- cycle;
+			\draw[thick,cyan] plot[domain=-4.5:-0.5] (\x+5,{-0.1*\x*\x+3.7});
+		\end{tikzpicture}
+		\begin{tikzpicture}[scale=0.5]
+			\draw[-latex] (-5,0) -- (0,0) node[below] {};
+			\fill [osprey_green, domain=-4:-1, variable=\x]
+					(-4, 0) -- plot ({\x}, {-0.5*\x+1.6}) -- (-1, 0) -- cycle;
+			\draw[thick,cyan] plot[domain=0.5:4.5] (\x-5,{-0.1*\x*\x+3.7});
+		\end{tikzpicture}
+	\end{multicols}
+
+\end{frame}
+
 \begin{frame}{Trapezoid Rule: Integration Error}
 \animategraphics[autoplay,loop,width=\linewidth - 0.5cm]{1}{assets/Trapezium2-}{0}{19}
 \end{frame}
