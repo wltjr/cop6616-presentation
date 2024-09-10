@@ -676,6 +676,39 @@ for (int i = 0; i < num_threads; i++) {
 \animategraphics[autoplay,loop]{50}{assets/keyboardpepe-}{0}{13}
 \end{frame}
 
+\begin{frame}{Parallel: Coding Caveats}
+	\begin{itemize}
+		\item As integration complexity increases, time increases.
+		\item As $n$ increases, time increases, and you can run into precision issues.
+		\item As precision increases, so does computational overhead.
+		\item As overhead increases, the need for resources increases.
+		\item As $num\_threads$ increases, there are diminishing returns.
+		\item Linux defaults to ~20,000 threads, changeable, but exists for a reason.
+	\end{itemize} \,
+
+	\center
+	\hspace{-1em}There is a trade-off between accuracy, time, and resources.
+\end{frame}
+
+\begin{frame}{Parallel: Using MPI on GPUs}
+	\begin{itemize}
+		\item GPUs are fast, thousands of cores.
+		\item MPI can be combined with threading or GPU code in a hybrid approach.
+		\item MPI might be faster than my threaded approach.  I hope not?
+		\item Precision.
+		\item All of the issues ultimately have a solution.
+	\end{itemize} \,
+
+	If you want an accuracy of 0.0000000001 AND the necessary precision (GMP or Python),
+	you will pay with time. At some point, you will save time by leveraging multiple
+	machines via MPI (when latency $<$ serial time). \\
+
+	\center
+	Learn more next week!
+
+\end{frame}
+
+
 \begin{frame}{References}
 \begin{itemize}
     \item Pendulum graphic: Licensed under a Creative Commons Attribution-ShareAlike 4.0 International License with Copyright 2021 – TikZ.net
