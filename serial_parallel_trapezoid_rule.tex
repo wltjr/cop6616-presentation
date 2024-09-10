@@ -47,7 +47,7 @@
                                            Definite Integrals using the Trapezoid Rule}
 \subtitle{\vspace{1em}\footnotesize Presented by:\vspace{-2em}}
 \author[\textbf{Group X}]{\textbf{Group X} \\
-                          \footnotesize \textit{Jason Gardner, Matthew Thomas, \& William L Thomson Jr}}
+                          \footnotesize \textit{Jason Gardner \& William L Thomson Jr}}
 \institute[UNF]{University of North Florida \\
                 Parallel Computing COP6616 \\
                 Instructor Scott Piersall}
@@ -72,167 +72,6 @@
 \end{frame}
 
 \section{Integration}
-
-\begin{frame}{Area Under The Curve}
-\begin{multicols}{2}
-
-\begin{tikzpicture}[line join=round,line cap=round]
-	\begin{scope}
-	\draw[-latex] (-0.5,0) -- (5,0) node[below] {$x$};
-	\draw[-latex] (0,-0.5) -- (0,5) node[left]  {$y$};
-	\node at (2,3.5) {$f(x)=0.1 x^2+2$};
-    \foreach\i in {1, 2, 3, 4}
-        \node at (\i, -0.25){\i};
-    \node at (1, -0.7) {$a$};
-    \node at (4, -0.7) {$b$};
-
-	\end{scope}
-
-    \fill [osprey_green, domain=1:4, variable=\x]
-      (1, 0)
-      -- plot ({\x}, {0.1*\x*\x+2})
-      -- (4, 0)
-      -- cycle;
-      
-\draw [thick,cyan]
-      plot [domain=0:5, variable=\x] ({\x}, {0.1*\x*\x+2}) node[right] at (1.5,2)
-      {};
-
-      
-	\end{tikzpicture}
-
-\vfill\null
-\columnbreak
-
-\begin{itemize}
-\item In calculus, definite integrals calculate the area "under the curve".
-\pause
-\item Suppose $F(x)$ is the anti-derivative of $f(x)$. That is,
-
-\[F(x)= \int f(x) dx\]
-\pause
-Then, the area under $f(x)$, between $a$ and $b$, is given by the definite integral:
-
-\[\int_a^b f(x) dx = F(b) - F(a).\]
-\end{itemize}
-\end{multicols}
-\end{frame}
-
-
-\begin{frame}{Area Under The Curve Example}
-\begin{multicols}{2}
-
-\begin{tikzpicture}[line join=round,line cap=round]
-	\begin{scope}
-	\draw[-latex] (-0.5,0) -- (5,0) node[below] {$x$};
-	\draw[-latex] (0,-0.5) -- (0,5) node[left]  {$y$};
-	\node at (2,3.5) {$f(x)=0.1*x^2+2$};
-    \foreach\i in {1, 2, 3, 4}
-        \node at (\i, -0.25){\i};
-    \node at (1, -0.7) {$a$};
-    \node at (4, -0.7) {$b$};
-
-	\end{scope}
-
-    \fill [osprey_green, domain=1:4, variable=\x]
-      (1, 0)
-      -- plot ({\x}, {0.1*\x*\x+2})
-      -- (4, 0)
-      -- cycle;
-      
-\draw [thick,cyan]
-      plot [domain=0:5, variable=\x] ({\x}, {0.1*\x*\x+2}) node[right] at (1.5,2)
-      {};
-
-      
-	\end{tikzpicture}
-
-\vfill\null
-\columnbreak
-
-\begin{itemize}
-\item The anti-derivative for this example is easy to find:
-
-\[F(x)=\int (\frac{1}{10} x^2 +2) dx\]
-\pause
-\[= \frac{1}{30} x^3 +2x +C \]
-\end{itemize}
-\end{multicols}
-\end{frame}
-
-\begin{frame}{Area Under The Curve Example}
-\begin{multicols}{2}
-
-\begin{tikzpicture}[line join=round,line cap=round]
-	\begin{scope}
-	\draw[-latex] (-0.5,0) -- (5,0) node[below] {$x$};
-	\draw[-latex] (0,-0.5) -- (0,5) node[left]  {$y$};
-	\node at (2,3.5) {$f(x)=0.1*x^2+2$};
-    \foreach\i in {1, 2, 3, 4}
-        \node at (\i, -0.25){\i};
-    \node at (1, -0.7) {$a$};
-    \node at (4, -0.7) {$b$};
-
-	\end{scope}
-
-    \fill [osprey_green, domain=1:4, variable=\x]
-      (1, 0)
-      -- plot ({\x}, {0.1*\x*\x+2})
-      -- (4, 0)
-      -- cycle;
-      
-\draw [thick,cyan]
-      plot [domain=0:5, variable=\x] ({\x}, {0.1*\x*\x+2}) node[right] at (1.5,2)
-      {};
-
-      
-	\end{tikzpicture}
-
-\vfill\null
-\columnbreak
-
-\begin{itemize}
-\item So the area under the curve, over the interval from 1 to 4, is:
-\[\int_1^4 (\frac{1}{10} x^2 +2) dx = F(4)-F(1)\]
-\pause
-\[=\frac{1}{30}4^3+2(4)-\frac{1}{30}1^3-2(1)\]
-
-\[=8.1\]
-\pause
-Exactly!
-\vfill\null
-\end{itemize}
-\end{multicols}
-\end{frame}
-
-\begin{frame}{The Need For A Numerica Method}
-
-\begin{multicols}{2}
-%The following picture is from
-%https://tikz.net/dynamics_pendulum_block/
-%which has the Tikz code that could be adapted
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\linewidth]{pendulum.png}
-    %\caption{Enter Caption}
-    %\label{fig:enter-label}
-\end{figure}
-
-\vfill\null
-\columnbreak
-
-A pendulum is released with an initial angle $\theta_0$. As it swings, the period, $T$, is given by the following:
-\pause
-\[T(\theta_0)=2\sqrt{2}\sqrt{\frac{L}{g}}\int_0^{\theta_0} \frac{d\theta}{\sqrt{cos \theta - cos \theta_0}}\]
-
-where $L$ is the length of the pendulum and $g$ is the gravitational constant.
-\pause
-\\
-\\
-\textbf{There is no closed-form anti-derivative for this integral!}
-\end{multicols}
-\end{frame}
-
 \begin{frame}{Survey Says}
 	\begin{center}
 		\includegraphics[scale=0.7]{assets/4-out-of-3-math}
@@ -700,15 +539,7 @@ for (int i = 0; i < num_threads; i++) {
 
 	\center
 	Learn more next week!
-
 \end{frame}
 
-
-\begin{frame}{References}
-\begin{itemize}
-    \item Pendulum graphic: Licensed under a Creative Commons Attribution-ShareAlike 4.0 International License with Copyright 2021 – TikZ.net
-    \item Pendulum formula: Kharab, A., \& Guenther, R. B. (2018). An introduction to numerical methods: A MATLAB Approach. Chapman \& Hall/CRC Numerical Analysis and Scientific Computing Series.
-\end{itemize}
-\end{frame}
 
 \end{document}
